@@ -40,7 +40,7 @@ static const char *get_id_edit_title(app_chameleon_id_edit_type_t id_edit_type) 
 static void format_id_edit_text(app_chameleon_id_edit_type_t id_edit_type, char *text) {
     const nfc_tag_14a_coll_res_reference_t *coll_res = tag_helper_get_active_coll_res_ref();
     switch (id_edit_type) {
-    case APP_CHAMELEON_ID_EDIT_TYPE_UID:
+    case APP_CHAMELEON_ID_EDIT_TYPE_UID: {
         nfc_tag_14a_uid_size uid_size = *(coll_res->size);
         if (uid_size == NFC_TAG_14A_UID_SINGLE_SIZE) {
             sprintf(text, "%02x.%02x.%02x.%02x", coll_res->uid[0], coll_res->uid[1], coll_res->uid[2],
@@ -54,6 +54,7 @@ static void format_id_edit_text(app_chameleon_id_edit_type_t id_edit_type, char 
                     coll_res->uid[7], coll_res->uid[8], coll_res->uid[9]);
         }
         return;
+    }
 
     case APP_CHAMELEON_ID_EDIT_TYPE_SAK:
         sprintf(text, "%02x", coll_res->sak[0]);
@@ -65,12 +66,13 @@ static void format_id_edit_text(app_chameleon_id_edit_type_t id_edit_type, char 
     }
 }
 
+
 static bool handle_id_edit_cb(app_chameleon_t *app, const char *text) {
     app_chameleon_id_edit_type_t id_edit_type = app->id_edit_type;
     const nfc_tag_14a_coll_res_reference_t *coll_res = tag_helper_get_active_coll_res_ref();
     int8_t buff[4];
     switch (id_edit_type) {
-    case APP_CHAMELEON_ID_EDIT_TYPE_UID:
+    case APP_CHAMELEON_ID_EDIT_TYPE_UID: {
         nfc_tag_14a_uid_size uid_size = *(coll_res->size);
         if (uid_size == NFC_TAG_14A_UID_SINGLE_SIZE) {
             if (sscanf(text, "%02x.%02x.%02x.%02x", buff, buff + 1, buff + 2, buff + 3) == 4) {
@@ -109,6 +111,7 @@ static bool handle_id_edit_cb(app_chameleon_t *app, const char *text) {
             }
         }
         break;
+    }
 
     case APP_CHAMELEON_ID_EDIT_TYPE_SAK:
         if (sscanf(text, "%02x", buff) == 1) {
@@ -128,6 +131,7 @@ static bool handle_id_edit_cb(app_chameleon_t *app, const char *text) {
 
     return false;
 }
+
 
 static void text_input_event_cb(mui_text_input_event_t event, mui_text_input_t *p_text_input) {
     app_chameleon_t *app = p_text_input->user_data;

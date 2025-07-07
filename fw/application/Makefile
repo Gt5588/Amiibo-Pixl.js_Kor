@@ -10,7 +10,7 @@ CHAMELEON_ROOT :=$(COMP_DIR)/chameleon-ultra/firmware
 
 APP_VERSION ?= 1
 RELEASE ?= 1
-BOARD ?= OLED
+BOARD ?= LCD
 
 $(OUTPUT_DIRECTORY)/pixljs.out: \
   LINKER_SCRIPT  := ../ld/application.ld
@@ -316,6 +316,7 @@ SRC_FILES += \
   $(PROJ_DIR)/i18n/nl_NL.c \
   $(PROJ_DIR)/i18n/pt_BR.c \
   $(PROJ_DIR)/i18n/ja_JP.c \
+  $(PROJ_DIR)/i18n/ko_KR.c \
   $(PROJ_DIR)/i18n/pt_PT.c \
   $(PROJ_DIR)/i18n/it_IT.c \
   $(PROJ_DIR)/i18n/ru_RU.c \
